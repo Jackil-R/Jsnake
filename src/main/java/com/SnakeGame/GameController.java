@@ -92,7 +92,7 @@ public class GameController extends Pane {
 
     public void gameOverMessage(GraphicsContext gc) {
         gc.setFill(Color.RED);
-        gc.setFont(new Font("Digital-7", 70));
+        gc.setFont(new Font("Digital-7", 50));
         gc.fillText("Game Over", WIDTH / 3.5, HEIGHT >> 1);
     }
 
@@ -100,9 +100,9 @@ public class GameController extends Pane {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
                 if ((i + j) % 2 == 0) {
-                    gc.setFill(Color.web("d3ff77"));
+                    gc.setFill(Color.web("4c5b6b"));
                 } else {
-                    gc.setFill(Color.web("c5f26b"));
+                    gc.setFill(Color.web("687482"));
                 }
                 gc.fillRect(i * SQUARE_SIZE, j * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
             }

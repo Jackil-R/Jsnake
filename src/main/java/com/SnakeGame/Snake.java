@@ -47,7 +47,7 @@ public class Snake {
 
 
     public void drawSnake(GraphicsContext gc) {
-        gc.setFill(Color.web("4674E9"));
+        gc.setFill(Color.GREENYELLOW);
         image.setRotate(rotate);
         image.setTranslateZ(image.getBoundsInLocal().getWidth() / 2.0);
         SnapshotParameters params = new SnapshotParameters();
