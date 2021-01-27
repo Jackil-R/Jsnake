@@ -18,37 +18,61 @@ import static com.SnakeGame.Commons.*;
 public class GameController extends Pane {
 
     private final GraphicsContext gc;
-    private final Food food;
-    private final Snake snake;
+    private final Canvas canvas;
+    private Food food;
+    private Snake snake;
+    private Timeline timeline;
     private boolean gameOver;
     private int score;
-    private int seconds=250;
+    private double speed =1;
 
     public GameController() {
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+        canvas = new Canvas(WIDTH, HEIGHT);
         getChildren().add(canvas);
         this.gc = canvas.getGraphicsContext2D();
+        drawBackground(gc);
+    }
+
+    public void startGame(){
         snake = new Snake();
         food = new Food();
         generateFood();
         setOnKeyPressed(e -> snake.keyPressed(e.getCode()));
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(seconds), e -> run(gc)));
+        timeline = new Timeline(new KeyFrame(Duration.millis(250), e -> run(gc)));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
+    public void pauseGame(){
+        timeline.pause();
+    }
+
+    public void unpauseGame(){
+        timeline.play();
+    }
+
+    public void reset(){
+        System.out.println("resetting game");
+        resetScore();
+        resetSeconds();
+        resetGameOver();
+        startGame();
+    }
+
+
     private void run(GraphicsContext gc) {
         if(gameOver) {
             gameOverMessage(gc);
-            return;
+            timeline.stop();
+        }else{
+            drawBackground(gc);
+            snake.drawSnake(gc);
+            food.drawFood(gc);
+            snake.move();
+            eatFood();
+            updateScore();
+            gameOver();
         }
-        drawBackground(gc);
-        snake.drawSnake(gc);
-        food.drawFood(gc);
-        snake.move();
-        eatFood();
-        updateScore();
-        gameOver();
     }
 
     private void eatFood() {
@@ -56,7 +80,7 @@ public class GameController extends Pane {
         if (snake.getHead().x == food.getX() && snake.getHead().getY() == food.getY()) {
             snake.increaseBody(new Point(-1, -1));
             generateFood();
-            seconds -= 10;
+            timeline.setRate(speed+0.1);
             score += 1;
         }
     }
@@ -115,5 +139,19 @@ public class GameController extends Pane {
         gc.fillText("Score: " + score, 10, 35);
     }
 
+    public int getScore(){
+        return score;
+    }
 
+    private void resetScore(){
+        score=0;
+    }
+
+    private void resetSeconds() {
+        speed =1;
+    }
+
+    private void resetGameOver(){
+        gameOver = false;
+    }
 }
