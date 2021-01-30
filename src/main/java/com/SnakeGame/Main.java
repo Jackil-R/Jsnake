@@ -19,10 +19,6 @@ import java.util.Scanner;
 
 public class Main extends Application {
 
-    // TODO: highscore in one session
-    // TODO: highscore all time (persisted high score)
-    // TODO: Better UI design
-
     @Override
     public void start(Stage primaryStage) throws IOException, URISyntaxException {
         SplitPane splitPane = new MainPanel();
